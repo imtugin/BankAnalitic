@@ -1,0 +1,111 @@
+package main
+
+import (
+	"fmt"
+	"strconv"
+)
+
+type Wire struct {
+	Material string  // "copper" или "aluminum"
+	Length   float64 // метров
+	CrossSec float64 // сечение в мм²
+}
+
+const (
+	AluminiumResistance float64 = 0.028
+	CopperResistance    float64 = 0.0175
+)
+
+func main() {
+	fmt.Println("Какой материал? copper/aluminum")
+	var wire Wire = Wire{"aluminnum", 50, 1.5}
+	var Wire2 = Wire{"aluminum", 34, 1.5}
+	var Wire1 = Wire{"aluminum", 28, 2.5}
+	var Wire3 = Wire{"aluminum", 20, 3.5}
+	var Wire4 = Wire{"copper", 150, 1.5}
+	var Wire5 = Wire{"copper", 10, 6}
+	var slice []Wire = []Wire{Wire1, Wire2, Wire3, Wire4, Wire5, wire}
+	lengWire1 := Wire1.Length
+	fmt.Println("Длина элемента массива 0:", lengWire1)
+
+	fmt.Scan(&wire.Material)
+	fmt.Println(wire)
+	wire.Scale(2)
+	fmt.Println(wire)
+	fmt.Println(wire.IsLongerThan(Wire2))
+	fmt.Println(wire.Describe())
+	fmt.Println("Суммарное сопротивление всех проводов:", TotalResistance(slice))
+	fmt.Println("Самый длинный провод:", Longest(slice))
+	fmt.Println("Вот провода медные:", selectMaterial(slice))
+
+}
+func (w Wire) Resistance() float64 {
+	var c float64
+	switch w.Material {
+	case "aluminum":
+		c = AluminiumResistance
+	case "copper":
+		c = CopperResistance
+	}
+	return c * w.Length / w.CrossSec
+}
+func (w *Wire) Scale(f float64) Wire {
+	w.Length *= f
+	return *w
+}
+func (w *Wire) IsLongerThan(other Wire) bool {
+	return w.Length > other.Length
+}
+func (w Wire) Describe() string {
+	var mat string
+	var leng string = strconv.FormatFloat(w.Length, 'f', -1, 64)
+	var s string = strconv.FormatFloat(w.CrossSec, 'f', -1, 64)
+	var R string = strconv.FormatFloat(w.Resistance(), 'f', -1, 64)
+
+	switch w.Material {
+	case "aluminum":
+		mat = "Алюминевый провод, "
+	case "copper":
+		mat = "Медный провод, "
+	}
+
+	str := mat + leng + " м, " + s + " мм^2, R = " + R + "Ом"
+	return str
+}
+
+// Суммарное сопротивление всех проводов
+func TotalResistance(s []Wire) float64 {
+	var sum float64
+	for i := 0; i < len(s); i++ {
+		sum += s[i].Resistance()
+	}
+	return sum
+}
+
+// возвращает самый длинный провод
+func Longest(s []Wire) []Wire {
+	MaxLengthWire := s[0]
+	for i := 0; i < len(s)-1; i++ {
+		if MaxLengthWire.Length < s[i+1].Length {
+			if MaxLengthWire.Length < s[i+1].Length {
+				MaxLengthWire = s[i+1]
+			}
+		}
+	}
+	return MaxLengthWire
+}
+
+// Сравниваем [0] = 28 c [1] = 34. >> max = 34[1]
+// Сравниваем [1] = 34 с [2] = 20 >> не меняем max = 34[1]
+// Сравниваем [2]
+
+// возвращает срез проводов только из указанного материала
+func selectMaterial(s []Wire) []Wire {
+	var selM []Wire
+	for i := 0; i < len(s); i++ {
+		if s[i].Material == "copper" {
+			selM = append(selM, s[i])
+		}
+	}
+	return selM
+}

@@ -1,0 +1,33 @@
+package main
+
+import (
+	"fmt"
+)
+
+var number, degree, limit float64
+var whatDo int8
+
+func main() {
+	fmt.Println("Какую операцию выполняем? 1 - нахождение корня методом Ньютона")
+	fmt.Scanln(&whatDo)
+	switch whatDo {
+	case 1:
+		fmt.Println("Корень равен ", NyutonMetod())
+	}
+}
+func NyutonMetod() float64 {
+	var x float64
+	var n float64
+	fmt.Println("Из какого числа извлеч корень?")
+	fmt.Scanln(&x)
+	fmt.Println("В какой степени корень?")
+	fmt.Scanln(&n)
+	if x < 0 {
+		fmt.Println("У отрицательных чисел нет корней!")
+	} else {
+		for i := 2.0; i < x; i++ {
+			i - (i*i-x)/(2*i)
+			return
+		}
+	}
+}
