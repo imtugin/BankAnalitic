@@ -1,9 +1,6 @@
 package main
 
-//В main
-// выведите суммарную стоимость всех задач
-// Для каждой задачи вывести describe()
-// Найти и вывести самую дешёвую задачу
+// Нужно подправить кое что что дипсик говорит
 
 import (
 	"fmt"
@@ -50,7 +47,7 @@ func (d DesignTask) Difficulty() string {
 
 // CodeTas
 func (c CodeTask) Execute() string {
-	return fmt.Sprintf("Код на %s: %d\n", c.Language, c.Hours)
+	return fmt.Sprintf("Код на %s: %d часов\n", c.Language, c.Hours)
 }
 
 func (c CodeTask) Price() int {
@@ -98,23 +95,10 @@ func TotalPrice(tasks []Task) int {
 }
 
 // // Возвращает срез задач с указанной сложностью
-func FilterByDifficulty(tasks []Task) []Task { //Здесь я изменил принимаемые параметры функции с (tasks []Task, diff string) на (tasks []Task). Кажется так легче. Если нет, объясни почему. Хотя моет если я не буду эту функцию на прямую в main вызвать, а использовать её в каком-то методе... Но тогда бы здесь принимался не срез а каждый элемент по отдельности
-	var input int
-	var intputStr string
+func FilterByDifficulty(tasks []Task, diff string) []Task { //Здесь я изменил принимаемые параметры функции с (tasks []Task, diff string) на (tasks []Task). Кажется так легче. Если нет, объясни почему. Хотя моет если я не буду эту функцию на прямую в main вызвать, а использовать её в каком-то методе... Но тогда бы здесь принимался не срез а каждый элемент по отдельности
 	var outputTasks []Task
-	fmt.Println("Выбор задач указанной сложности")
-	fmt.Println("Какую сложность выбрать? 1 - Лёгкая. 2 - Средняя. 3 - Сложная")
-	fmt.Scanln(&input)
-	switch input {
-	case 1:
-		intputStr = "Лёгкая"
-	case 2:
-		intputStr = "Средняя"
-	case 3:
-		intputStr = "Сложная"
-	}
 	for i := range tasks {
-		if intputStr == tasks[i].Difficulty() {
+		if diff == tasks[i].Difficulty() {
 			outputTasks = append(outputTasks, tasks[i])
 		}
 	}
@@ -127,17 +111,8 @@ func Describe(t Task) {
 	fmt.Println()
 	fmt.Println()
 	fmt.Println("Подробное описание задачи")
-	switch t.(type) {
-	case DesignTask:
-		fmt.Println(t.Execute())
-		fmt.Printf("Цена: %d рублей.\n", t.Price())
-	case CodeTask:
-		fmt.Println(t.Execute())
-		fmt.Printf("Цена: %d рублей.\n", t.Price())
-	case TextTask:
-		fmt.Println(t.Execute())
-		fmt.Printf("Цена: %d рублей.\n", t.Price())
-	}
+	fmt.Println(t.Execute())
+	fmt.Printf("Цена: %d рублей.\n", t.Price())
 	fmt.Printf("Уровень: %s\n", t.Difficulty())
 
 }
@@ -155,6 +130,8 @@ func FindCheapest(tasks []Task) Task {
 }
 
 func main() {
+	var input int
+	var inputStr string
 	alltasks := []Task{
 		DesignTask{"дизайн альбома", 20},
 		DesignTask{"дизайн сайта", 10},
@@ -181,11 +158,25 @@ func main() {
 		}
 	}
 	fmt.Println("-------------------------------------")
-	fmt.Println(FilterByDifficulty(alltasks))
+	fmt.Println("Выбор задач указанной сложности")
+	fmt.Println("Какую сложность выбрать? 1 - Лёгкая. 2 - Средняя. 3 - Сложная")
+	fmt.Scanln(&input)
+	switch input {
+	case 1:
+		inputStr = "Лёгкая"
+	case 2:
+		inputStr = "Средняя" // Проблема где-то. Именно задачи средней сложности не выводятся
+	case 3:
+		inputStr = "Сложная"
+	}
+	fmt.Println("Вы выбрали", input, ":", inputStr)
+	fmt.Println(FilterByDifficulty(alltasks, inputStr))
+	fmt.Println()
+	fmt.Println()
 	fmt.Println("А вот самая дешёвая задача:", FindCheapest(alltasks))
-	fmt.Println("Введите задачу о которой вы хотите узнать из списка")
-	Describe(alltasks[2])
-	//	for i := range alltasks{
-	//		alltasks[i].
-	//	}
+	fmt.Println()
+	fmt.Println()
+	fmt.Println("Введите задачу о которой вы хотите узнать из списка из списка")
+	fmt.Scanln(&input)
+	Describe(alltasks[input-1])
 }
