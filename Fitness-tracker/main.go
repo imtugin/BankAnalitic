@@ -3,6 +3,7 @@ package main
 import "fmt"
 
 type Activity interface {
+	Time() int
 	Name() string
 	Calories() int
 	Duration() string
@@ -52,6 +53,9 @@ func (s Swimming) Duration() string {
 func (s Strength) Duration() string {
 	return fmt.Sprintf("%d мин", s.TimeMin)
 }
+func (r Running) Time() int  { return r.TimeMin }
+func (s Swimming) Time() int { return s.TimeMin }
+func (s Strength) Time() int { return s.TimeMin }
 func (r Running) Intensity() string {
 	// если темп меньше 6 мин на км, то высокая. Иначе - средняя
 	var temp float64 = float64(r.TimeMin) / r.Distance // за соклько времени я пробежал один км в среднем
@@ -77,7 +81,11 @@ func (s Strength) Intensity() string {
 	}
 }
 func TotalCalories(activities []Activity) int { // Суммарно сожжённые калории
-
+	var totalCal int
+	for i := range activities {
+		totalCal += activities[i].Calories()
+	}
+	return totalCal
 }
 func FilterByIntensity(activites []Activity, intensity string) []Activity { //Только тренировки с укаазанной интенсивностью
 	var filter []Activity
@@ -91,7 +99,7 @@ func FilterByIntensity(activites []Activity, intensity string) []Activity { //Т
 func LongestDuration(activites []Activity) Activity { // Тренировка с максимальным временем
 	longest := activites[0]
 	for i := range activites {
-		if longest.Duration() < activites[i].Duration() {
+		if longest.Time() < activites[i].Time() {
 			longest = activites[i]
 		}
 	}
@@ -131,7 +139,7 @@ func main() {
 	fmt.Println()
 	fmt.Println("Какая интенсивность тренировки интересует: 1 - Средняя, 2 - Высокая")
 	fmt.Scanln(&intens)
-	if intens != 1 || intens != 2 {
+	if intens != 1 && intens != 2 {
 		fmt.Println("Введите 1 или 2")
 	} else {
 		if intens == 1 {
@@ -152,4 +160,5 @@ func main() {
 	fmt.Println(LongestDuration(activ))
 	fmt.Println()
 	fmt.Println()
+	fmt.Println("Расход калорий по всем тренировкам:", TotalCalories(activ))
 }

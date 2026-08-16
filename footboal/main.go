@@ -21,7 +21,7 @@ type Messi struct {
 func (f Messi) kickball() {
 	shot := f.power + f.stamina
 	shot *= 2
-	fmt.Printf("Гном бьёт по мячу %d\n, его рост %2f", shot, f.height)
+	fmt.Printf("Гном бьёт по мячу %d, его рост %.2f", shot, f.height)
 }
 func (f FootballPlayer) kickball() {
 	shot := f.power + f.stamina
@@ -34,9 +34,12 @@ func main() {
 			power:   rand.Intn(10),
 			stamina: rand.Intn(10),
 		}
+		if p == len(players)-1 {
+			players[p] = Messi{10, 10, 1.2}
+		}
 	}
 	for p := range players {
 		players[p].kickball()
 	}
-	Messi.kickball()
+	// Messi.kickball(Messi{})
 }
