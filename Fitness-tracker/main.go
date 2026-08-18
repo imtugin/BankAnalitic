@@ -113,15 +113,15 @@ func PrintSummary(a Activity) { // Выводит: название, длите�
 }
 
 func main() {
-	// Вывести
-	// Все тренировки и их показатели
-	// Суммарные калории
-	// Только высокоинтенсивные тренировки
-	// Самая долгая тренировка
-	// PrintSummary для каждой
-	//	strength := []string{"шея", "плечи", "спина", "таз", "колени", "лучезапястные суставы", "локтевые суставы", "голеностоп", "пресс", "поза стола"}
-	var intens int
-	var intensity string
+	//	// Вывести
+	//	// Все тренировки и их показатели
+	//	// Суммарные калории
+	//	// Только высокоинтенсивные тренировки
+	//	// Самая долгая тренировка
+	//	// PrintSummary для каждой
+	//	//	strength := []string{"шея", "плечи", "спина", "таз", "колени", "лучезапястные суставы", "локтевые суставы", "голеностоп", "пресс", "поза стола"}
+	//	var intens int
+	//	var intensity string
 	activ := []Activity{
 		Running{5, 24},
 		Running{3, 15},
@@ -131,34 +131,43 @@ func main() {
 		Strength{[]string{"шея", "плечи", "спина", "колени"}, 10},
 		Strength{[]string{"шея", "плечи", "спина", "таз", "колени", "лучезапястные суставы", "локтевые суставы", "голеностоп", "пресс", "поза стола"}, 30},
 	}
-	fmt.Println("Вот все тренировки:")
-	for i := range activ {
-		PrintSummary(activ[i])
-	}
+	fmt.Println(activ[0])
 	fmt.Println()
-	fmt.Println()
-	fmt.Println("Какая интенсивность тренировки интересует: 1 - Средняя, 2 - Высокая")
-	fmt.Scanln(&intens)
-	if intens != 1 && intens != 2 {
-		fmt.Println("Введите 1 или 2")
-	} else {
-		if intens == 1 {
-			intensity = "средняя"
-		} else {
-			intensity = "высокая"
-		}
-	}
-	filtr := FilterByIntensity(activ, intensity)
-	fmt.Println("Вот тренировки с уровнем активности", intensity, ":")
-	for i := range filtr {
-		fmt.Print("=======================", i, "=======================")
-		PrintSummary(filtr[i])
-	}
-	fmt.Println()
-	fmt.Println()
-	fmt.Println("Вот самая долгая тернировка:")
-	fmt.Println(LongestDuration(activ))
-	fmt.Println()
-	fmt.Println()
-	fmt.Println("Расход калорий по всем тренировкам:", TotalCalories(activ))
+	// fmt.Println("Вот все тренировки:")
+	//
+	//	for i := range activ {
+	//		PrintSummary(activ[i])
+	//	}
+	//
+	// fmt.Println()
+	// fmt.Println()
+	// fmt.Println("Какая интенсивность тренировки интересует: 1 - Средняя, 2 - Высокая")
+	// fmt.Scanln(&intens)
+	//
+	//	if intens != 1 && intens != 2 {
+	//		fmt.Println("Введите 1 или 2")
+	//	} else {
+	//
+	//		if intens == 1 {
+	//			intensity = "средняя"
+	//		} else {
+	//			intensity = "высокая"
+	//		}
+	//	}
+	//
+	// filtr := FilterByIntensity(activ, intensity)
+	// fmt.Println("Вот тренировки с уровнем активности", intensity, ":")
+	//
+	//	for i := range filtr {
+	//		fmt.Print("=======================", i, "=======================")
+	//		PrintSummary(filtr[i])
+	//	}
+	//
+	// fmt.Println()
+	// fmt.Println()
+	// fmt.Println("Вот самая долгая тернировка:")
+	// fmt.Println(LongestDuration(activ))
+	// fmt.Println()
+	// fmt.Println()
+	// fmt.Println("Расход калорий по всем тренировкам:", TotalCalories(activ))
 }
