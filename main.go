@@ -77,18 +77,25 @@ fmt.Printf("Что хотите сделать?\n 1 - получить новы�
     fmt.Scanln(&choice)
     fmt.Println("Введите сумму")
     fmt.Scanln(&amount)
-    switch choice{  
-    case 1:
-      fmt.Println("На какой срок? Доступно 1, 3, 6, 9 или 12 месяцев")
-      fmt.Scanln(&choice)
-      switch choice{
-      case 1:
-        myProducts = append(myProducts, DigitalAssets{
+    
+    myProducts = append(myProducts, DigitalAssets{
         Amount: amount,
     Term: choice,
     Annual: 15.2,
     Tax: 13,
       })
+
+        asset := myProducts[len(myProducts)-1]
+
+    
+    switch choice{  
+    case 1:
+    
+      fmt.Println("На какой срок? Доступно 1, 3, 6, 9 или 12 месяцев")
+      fmt.Scanln(&choice)
+      switch choice{
+      case 1:
+        
 
       case 3:
         myProducts = append(myProducts, DigitalAssets{
@@ -124,7 +131,7 @@ fmt.Printf("Что хотите сделать?\n 1 - получить новы�
       })
 
         }
-        asset := myProducts[len(myProducts)-1]
+
   Description(asset)
 
 
